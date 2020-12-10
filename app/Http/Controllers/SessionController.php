@@ -39,7 +39,7 @@ class SessionController extends Controller
             ->latest()
             ->first();
         
-        if($lastSession->updated_at->timestamp + $seconds_interval > now()->timestamp)
+        if($lastSession && $lastSession->updated_at->timestamp + $seconds_interval > now()->timestamp)
         {
             Session::where('id', $lastSession->id)->update($data);
             $lastSession = Session::find($lastSession->id);
