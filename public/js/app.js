@@ -2610,6 +2610,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    getReadableDate: function getReadableDate(dateString) {
+      var date = new Date(dateString);
+      return "".concat(date.toString().slice(4, 7), " ").concat(date.getDate(), " ").concat(date.getFullYear(), " ").concat(date.getHours(), ":").concat(date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+    },
     getSessions: function getSessions() {
       var _this = this;
 
@@ -42704,16 +42708,20 @@ var render = function() {
   return _c("div", [
     _c("h1", [_vm._v("Dashboard")]),
     _vm._v(" "),
-    _c("p", {
-      domProps: {
-        textContent: _vm._s(
-          _vm.getDuration(
-            _vm.currentSession.created_at,
-            _vm.currentSession.updated_at
+    _c("p", [
+      _vm._v("Here since: "),
+      _c("span", {
+        domProps: {
+          textContent: _vm._s(
+            _vm.getDuration(
+              _vm.currentSession.created_at,
+              _vm.currentSession.updated_at
+            )
           )
-        )
-      }
-    }),
+        }
+      }),
+      _vm._v(" ago")
+    ]),
     _vm._v(" "),
     _c("table", { attrs: { border: "1" } }, [
       _vm._m(0),
@@ -42722,9 +42730,15 @@ var render = function() {
         "tbody",
         _vm._l(_vm.sessions, function(session, i) {
           return _c("tr", { key: i }, [
-            _c("td", { domProps: { textContent: _vm._s(session.created_at) } }),
+            _c("td", {
+              staticClass: "pa-3",
+              domProps: {
+                textContent: _vm._s(_vm.getReadableDate(session.created_at))
+              }
+            }),
             _vm._v(" "),
             _c("td", {
+              staticClass: "pa-3",
               domProps: {
                 textContent: _vm._s(
                   _vm.getDuration(session.created_at, session.updated_at)
@@ -42745,9 +42759,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Sessions")]),
+        _c("th", { staticClass: "pa-3" }, [_vm._v("Sessions")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Durations")])
+        _c("th", { staticClass: "pa-3" }, [_vm._v("Durations")])
       ])
     ])
   }

@@ -1,18 +1,18 @@
 <template>
 	<div>
 		<h1>Dashboard</h1>
-		<p v-text="getDuration(currentSession.created_at, currentSession.updated_at)"></p>
+		<p>Here since: <span v-text="getDuration(currentSession.created_at, currentSession.updated_at)"></span> ago</p>
 		<table border="1">
 			<thead>
 				<tr>
-					<th>Sessions</th>
-					<th>Durations</th>
+					<th class="pa-3">Sessions</th>
+					<th class="pa-3">Durations</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="(session,i) in sessions" :key="i">
-					<td v-text="session.created_at"></td>
-					<td v-text="getDuration(session.created_at,session.updated_at)"></td>
+					<td v-text="getReadableDate(session.created_at)" class="pa-3"></td>
+					<td v-text="getDuration(session.created_at,session.updated_at)" class="pa-3"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -29,6 +29,11 @@ export default {
 	}),
 
 	methods: {
+		getReadableDate (dateString) {
+			const date = new Date(dateString)
+			return `${date.toString().slice(4,7)} ${date.getDate()} ${date.getFullYear()} ${date.getHours()}:${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()}`
+		},
+
 		getSessions () {
 			axios.get(api.list(), {
 				params: {
