@@ -1,8 +1,8 @@
 # Install 
-composer install
-php artisan migrate
-php password:install
-npm install
+- composer install
+- php artisan migrate
+- php password:install
+- npm install
 
 # Run
 - Tab 1
